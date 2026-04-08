@@ -1,25 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Casino Poker Table</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <h1 style="color:white;">🃏 Casino Table</h1>
 
-    <div class="table">
-    <div id="cards-container"></div>
-    </div>
+  <header class="topbar">
+    <div class="logo">♠ Casino Table</div>
+    <button id="theme-toggle" onclick="toggleTheme()">☀ Light Mode</button>
+  </header>
 
-    <div class="controls">
-    <button onclick="drawCards()">Deal Cards</button>
-    <button onclick="shuffleDeck()">Shuffle</button>
-    </div>
+  <main class="layout">
 
-    <p id="remaining"></p>
-    <div id="loader">Dealing...</div>
-    <script src="script.js"></script>
+    <aside class="rankings-panel">
+      <h2 class="panel-title">Hand Rankings</h2>
+      <ul class="rankings-list" id="rankings-list">
+        <li data-key="ROYAL_FLUSH"    class="rank-item tier-royal"><span class="rank-num">1</span><span class="rank-label">Royal Flush</span></li>
+        <li data-key="STRAIGHT_FLUSH" class="rank-item tier-royal"><span class="rank-num">2</span><span class="rank-label">Straight Flush</span></li>
+        <li data-key="FOUR_OF_A_KIND" class="rank-item tier-great"><span class="rank-num">3</span><span class="rank-label">Four of a Kind</span></li>
+        <li data-key="FULL_HOUSE"     class="rank-item tier-great"><span class="rank-num">4</span><span class="rank-label">Full House</span></li>
+        <li data-key="FLUSH"          class="rank-item tier-good" ><span class="rank-num">5</span><span class="rank-label">Flush</span></li>
+        <li data-key="STRAIGHT"       class="rank-item tier-good" ><span class="rank-num">6</span><span class="rank-label">Straight</span></li>
+        <li data-key="THREE_OF_A_KIND"class="rank-item tier-fair" ><span class="rank-num">7</span><span class="rank-label">Three of a Kind</span></li>
+        <li data-key="TWO_PAIR"       class="rank-item tier-fair" ><span class="rank-num">8</span><span class="rank-label">Two Pair</span></li>
+        <li data-key="ONE_PAIR"       class="rank-item tier-low"  ><span class="rank-num">9</span><span class="rank-label">One Pair</span></li>
+        <li data-key="HIGH_CARD"      class="rank-item tier-low"  ><span class="rank-num">10</span><span class="rank-label">High Card</span></li>
+      </ul>
+    </aside>
+
+    <section class="center-panel">
+
+      <div class="controls">
+        <button class="btn-primary" onclick="drawCards()">Deal Hand</button>
+        <button class="btn-secondary" onclick="shuffleDeck()">New Deck</button>
+        <p id="remaining" class="remaining-text"></p>
+      </div>
+
+      <div id="loader" class="loader">Dealing cards...</div>
+
+      <div id="hand-result" class="hand-banner" style="display:none;"></div>
+
+      <div class="felt-table">
+        <div id="cards-container" class="cards-row"></div>
+        <div class="felt-label">Current Hand</div>
+      </div>
+
+    </section>
+
+    <aside class="history-panel">
+      <h2 class="panel-title">Hand History</h2>
+
+      <div class="history-controls">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search by card value..."
+          oninput="applyHistoryFilters()"
+        />
+        <select id="suit-filter" onchange="applyHistoryFilters()">
+          <option value="ALL">All Suits</option>
+          <option value="HEARTS">♥ Hearts</option>
+          <option value="SPADES">♠ Spades</option>
+          <option value="DIAMONDS">♦ Diamonds</option>
+          <option value="CLUBS">♣ Clubs</option>
+        </select>
+        <select id="sort-order" onchange="applyHistoryFilters()">
+          <option value="NEWEST">Newest First</option>
+          <option value="OLDEST">Oldest First</option>
+          <option value="BEST">Best Hand First</option>
+          <option value="WORST">Worst Hand First</option>
+        </select>
+      </div>
+
+      <div id="history-list" class="history-list">
+        <p class="empty-msg">No hands dealt yet.<br/>Hit Deal to start!</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="script.js"></script>
 </body>
-</html>
+</html> 
